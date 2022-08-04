@@ -6,6 +6,7 @@ public class BadGuyException extends RuntimeException{
         super(msg);
 
     }
+    // TODO: optimize this section for better performance
 
 
 }
