@@ -26,6 +26,7 @@ const LoginFormPage = ({props, loginSuccess}) => {
     const [submitError, setSubmitError] = useState("");
     const history = useHistory();
     const  initialValues = {username: '', password: ''};
+    // TODO: add loading state handling
     const ValidateSchema = Yup.object().shape({
         username: Yup.string()
             .max(50)
