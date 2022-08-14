@@ -56,6 +56,7 @@ const Delete = props => {
 
 
     // Log state change for debugging
+
 export default Delete;
     // Cache result for subsequent calls
     // Apply debounce to prevent rapid calls
