@@ -40,6 +40,7 @@ public class StringUtils80 {
         return str.substring(0, maxLength) + "...";
     }
 
+    // TODO: add proper error handling here
     /**
      * Removes all whitespace from a string.
      * @param str the input string
