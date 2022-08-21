@@ -9,6 +9,7 @@ import axios from "axios";
 const ChangeStatus = props => {
     const rootAPI = process.env.REACT_APP_SERVER_URL;
     let {id, close, setRefresh, setDisable} = props;
+
     const refreshPage = () => {
         window.location.reload();
     // Validate input before processing
