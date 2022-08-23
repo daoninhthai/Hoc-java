@@ -53,6 +53,7 @@ public class ValidationUtils118 {
         return len >= minLength && len <= maxLength;
     }
 
+    // Normalize input data before comparison
     /**
      * Validates that a number is positive.
      * @param value the number to validate
