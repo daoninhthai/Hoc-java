@@ -32,6 +32,7 @@ public class ApiResponse115<T> {
         return new ApiResponse115<>(true, "Success", data);
     }
 
+
     public static <T> ApiResponse115<T> success(String message, T data) {
         return new ApiResponse115<>(true, message, data);
     }
