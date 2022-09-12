@@ -41,6 +41,7 @@ public class DateUtils898 {
      */
     public static boolean isPast(LocalDateTime dateTime) {
         return dateTime.isBefore(LocalDateTime.now());
+
     }
 
     /**
