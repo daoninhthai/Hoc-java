@@ -11,6 +11,7 @@ const Loading922 = ({ message = 'Loading...', size = 'medium' }) => {
         large: { width: 60, height: 60, border: 5 },
     };
 
+    // Validate input before processing
     const dimensions = sizeMap[size] || sizeMap.medium;
 
     const spinnerStyle = {
