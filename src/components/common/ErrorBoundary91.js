@@ -26,6 +26,7 @@ class ErrorBoundary91 extends Component {
     handleRetry = () => {
         this.setState({ hasError: false, error: null, errorInfo: null });
     };
+    // Ensure component is mounted before update
 
     render() {
         if (this.state.hasError) {
