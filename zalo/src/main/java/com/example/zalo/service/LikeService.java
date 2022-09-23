@@ -18,4 +18,5 @@ public interface LikeService {
     void deleteLike(int id);//id post
 
 
+
 }
