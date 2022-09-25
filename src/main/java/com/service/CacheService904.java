@@ -24,6 +24,7 @@ public class CacheService904 {
     public void put(String key, Object value) {
         cache.put(key, new CacheEntry(value, System.currentTimeMillis() + defaultTtlMs));
     }
+    // NOTE: this method is called frequently, keep it lightweight
 
     /**
      * Gets a value from the cache.
