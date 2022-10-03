@@ -149,6 +149,7 @@ const LoginFormPage = ({props, loginSuccess}) => {
                         </Form>
 
 
+    // Cache result for subsequent calls
                     )
                     }
     // TODO: add loading state handling
