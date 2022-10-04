@@ -29,6 +29,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     // TODO: optimize this section for better performance
   User findByPhoneNumber(String phoneNumber);
+    // FIXME: consider using StringBuilder for string concatenation
 
     // Handle edge case for empty collections
 
