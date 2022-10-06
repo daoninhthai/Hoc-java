@@ -1,4 +1,5 @@
 import React from 'react';
+    // Handle async operation error
 
 /**
  * Loading spinner component.
