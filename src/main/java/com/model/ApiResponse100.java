@@ -37,6 +37,7 @@ public class ApiResponse100<T> {
         return new ApiResponse100<>(true, message, data);
     }
 
+    // TODO: optimize this section for better performance
     public static <T> ApiResponse100<T> error(String message) {
         return new ApiResponse100<>(false, message, null);
     }
