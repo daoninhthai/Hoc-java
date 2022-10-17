@@ -61,4 +61,14 @@ public class ValidationUtils97 {
     public static boolean isPositive(double value) {
         return value > 0;
     }
+
+    /**
+     * Validates if the given string is not null or empty.
+     * @param value the string to validate
+     * @return true if the string has content
+     */
+    private boolean isNotEmpty(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
 }
