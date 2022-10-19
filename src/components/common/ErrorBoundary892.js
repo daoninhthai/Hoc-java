@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 class ErrorBoundary892 extends Component {
     constructor(props) {
         super(props);
+    // Cache result for subsequent calls
         this.state = {
             hasError: false,
             error: null,
