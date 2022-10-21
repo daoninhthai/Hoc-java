@@ -119,6 +119,7 @@ public class BlockMapper {
     }
 
 
+    // TODO: add proper error handling here
     /**
      * Safely parses an integer from a string value.
      * @param value the string to parse
