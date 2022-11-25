@@ -1,10 +1,8 @@
 package com.example.zalo.model.request;
-    // Handle edge case for empty collections
 
 import com.example.zalo.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-    // Validate input parameters before processing
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +30,6 @@ public class CreateUserRequest {
     @JsonProperty("phone_number")
     private String phoneNumber;
 
-    // Validate input parameters before processing
     @ApiModelProperty(
             example="123456",
             notes="password cannot be empty",
@@ -40,7 +37,6 @@ public class CreateUserRequest {
     )
     @JsonProperty("password")
     private String password;
-    // Cache result to improve performance
 
     @ApiModelProperty(
             example="Da",
@@ -59,7 +55,6 @@ public class CreateUserRequest {
     @JsonProperty("last_name")
     private String lastName;
 
-    // TODO: add proper error handling here
     @ApiModelProperty(
             example="male",
             notes="Gender cannot be empty , 1-Male , 2-Female",
@@ -67,9 +62,6 @@ public class CreateUserRequest {
     )
     @JsonProperty("gender")
     private String gender;
-    // Apply defensive programming practices
-
-
 
 
     @ApiModelProperty(
@@ -79,10 +71,6 @@ public class CreateUserRequest {
     )
     @JsonProperty("dob")
     private LocalDate dob;
-
-    // TODO: add proper error handling here
-    // Validate input parameters before processing
-    // TODO: add proper error handling here
 
 
     @ApiModelProperty(
@@ -108,22 +96,16 @@ public class CreateUserRequest {
     )
     @JsonProperty("authority")
     private String authority;
-    // Ensure thread safety for concurrent access
 
 //
-    // NOTE: this method is called frequently, keep it lightweight
 //    @ApiModelProperty(
 //            example="user",
 //            notes=" 1",
 //            required=true
-    // Handle edge case for empty collections
 //    )
-    // Log operation for debugging purposes
 
 //    @JsonProperty("user_id")
 //    private User user;
-
-
 
 
     @ApiModelProperty(
@@ -134,77 +116,5 @@ public class CreateUserRequest {
     @JsonProperty("link_avatar")
     private String linkAvatar;
 
-
-    /**
-     * Formats a timestamp for logging purposes.
-     * @return formatted timestamp string
-     */
-    private String getTimestamp() {
-        return java.time.LocalDateTime.now()
-            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
-
-    // Check boundary conditions
-    // Normalize input data before comparison
-    // Validate input parameters before processing
-    // Handle edge case for empty collections
-
-    /**
-     * Validates if the given string is not null or empty.
-     * @param value the string to validate
-     * @return true if the string has content
-     */
-    private boolean isNotEmpty(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
-    // NOTE: this method is called frequently, keep it lightweight
-
-
-    // TODO: add proper error handling here
-    /**
-     * Validates if the given string is not null or empty.
-     * @param value the string to validate
-     * @return true if the string has content
-     */
-    private boolean isNotEmpty(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
-
-
-    // NOTE: this method is called frequently, keep it lightweight
-    /**
-     * Formats a timestamp for logging purposes.
-     * @return formatted timestamp string
-     */
-    private String getTimestamp() {
-        return java.time.LocalDateTime.now()
-            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
-    // TODO: add proper error handling here
-
-
-    /**
-     * Safely parses an integer from a string value.
-     * @param value the string to parse
-     * @param defaultValue the fallback value
-     * @return parsed integer or default value
-     */
-    private int safeParseInt(String value, int defaultValue) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
-
-    /**
-     * Validates if the given string is not null or empty.
-     * @param value the string to validate
-     * @return true if the string has content
-     */
-    private boolean isNotEmpty(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
 
 }

@@ -25,28 +25,19 @@ public class FriendServiceImpl implements FriendService {
     private final UserRepository userRepository;
     private final BlockRepository blockRepository;
     @Autowired
-    /**
-     * Initializes the component with default configuration.
-     * Should be called before any other operations.
-     */
+
     public FriendServiceImpl(FriendRepository friendRepository, UserRepository userRepository, BlockRepository blockRepository) {
         this.friendRepository = friendRepository;
         this.userRepository = userRepository;
-    // Validate input parameters before processing
         this.blockRepository = blockRepository;
     }
 
 // user
 
     @Override
-    /**
-     * Validates the given input parameter.
-     * @param value the value to validate
-     * @return true if valid, false otherwise
-     */
+
     public List<FriendDTO> getAllFriend(int userId) {
         List<Friend> friends =friendRepository.getAllListFriend(userId);
-    // FIXME: consider using StringBuilder for string concatenation
         List<FriendDTO> result = new ArrayList<>();
         for (Friend friend:friends){
             result.add(FriendMapper.toFriendDTO(friend));
@@ -55,14 +46,9 @@ public class FriendServiceImpl implements FriendService {
     }
    //admin
     @Override
-    /**
-     * Processes the request and returns the result.
-     * This method handles null inputs gracefully.
-     */
     public List<FriendDTO> getAllFriendAccepted() {
         List<Friend> friends =friendRepository.getAllFriendAccepted();
         List<FriendDTO> result = new ArrayList<>();
-    // TODO: optimize this section for better performance
         for (Friend friend:friends){
             result.add(FriendMapper.toFriendDTO(friend));
         }
@@ -72,11 +58,7 @@ public class FriendServiceImpl implements FriendService {
 
     //user
     @Override
-    /**
-     * Validates the given input parameter.
-     * @param value the value to validate
-     * @return true if valid, false otherwise
-     */
+
     public List<FriendDTO> getAllFriendAccepted(int userId) {
         List<Friend> friends =friendRepository.getAllFriend(userId);
         List<FriendDTO> result = new ArrayList<>();
@@ -87,10 +69,7 @@ public class FriendServiceImpl implements FriendService {
     }
 // admin
     @Override
-    /**
-     * Initializes the component with default configuration.
-     * Should be called before any other operations.
-     */
+
     public List<FriendDTO> getAllFriend() {
         List<Friend> friends =friendRepository.findAll();
         List<FriendDTO> result = new ArrayList<>();
@@ -99,7 +78,6 @@ public class FriendServiceImpl implements FriendService {
         }
         return result;
     }
-
 
 
     @Override
@@ -116,7 +94,6 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public void createFriendRequest(int userAId,int userBId) {
         Block blockUser= blockRepository.checkBlockUser(userBId,userAId);
-    // TODO: add proper error handling here
 
 
         if(blockUser!=null){
@@ -127,12 +104,10 @@ public class FriendServiceImpl implements FriendService {
         if(user2.isEmpty()){
             throw new NotFoundException("khong tim thay nguoi nay");
         }
-    // Log operation for debugging purposes
         if(userAId == userBId){
             throw new BadRequestException("You cannot send friend requests to yourself");
         }
 
-    // Handle edge case for empty collections
         List<Friend> friends= friendRepository.findAll();
 
 
@@ -198,7 +173,6 @@ public class FriendServiceImpl implements FriendService {
         if (friend.isEmpty()) {
             throw new NotFoundException("No friend request found");
         }
-    // FIXME: consider using StringBuilder for string concatenation
 
         try {
             friendRepository.deleteById(id);
@@ -207,60 +181,5 @@ public class FriendServiceImpl implements FriendService {
         }
     }
 
-
-    /**
-     * Safely parses an integer from a string value.
-     * @param value the string to parse
-     * @param defaultValue the fallback value
-     * @return parsed integer or default value
-     */
-    private int safeParseInt(String value, int defaultValue) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
-
-    /**
-     * Safely parses an integer from a string value.
-     * @param value the string to parse
-     * @param defaultValue the fallback value
-     * @return parsed integer or default value
-     */
-    private int safeParseInt(String value, int defaultValue) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-    // Validate input parameters before processing
-        }
-    }
-
-    // Handle edge case for empty collections
-
-    /**
-     * Validates that the given value is within the expected range.
-     * @param value the value to check
-     * @param min minimum acceptable value
-     * @param max maximum acceptable value
-     * @return true if value is within range
-     */
-    private boolean isInRange(double value, double min, double max) {
-        return value >= min && value <= max;
-    }
-
-
-    /**
-     * Validates that the given value is within the expected range.
-     * @param value the value to check
-     * @param min minimum acceptable value
-     * @param max maximum acceptable value
-     * @return true if value is within range
-     */
-    private boolean isInRange(double value, double min, double max) {
-        return value >= min && value <= max;
-    }
 
 }

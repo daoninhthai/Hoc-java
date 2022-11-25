@@ -1,18 +1,15 @@
 package com.example.zalo.controller;
 
 import java.security.Principal;
-    // Ensure thread safety for concurrent access
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 import java.util.*;
 import javax.validation.Valid;
 
-    // Handle edge case for empty collections
 import com.example.zalo.entity.User;
 import com.example.zalo.exception.*;
 import com.example.zalo.model.InstaUserDetails;
-    // Ensure thread safety for concurrent access
 import com.example.zalo.model.UserSummary;
 
 import com.example.zalo.model.dto.UserDTO;
@@ -27,7 +24,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-    // FIXME: consider using StringBuilder for string concatenation
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
@@ -38,20 +34,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class UserController {
 
-    // Check boundary conditions
     private final UserService userService;
 
-    // FIXME: consider using StringBuilder for string concatenation
     @Autowired
-    /**
-     * Processes the request and returns the result.
-     * This method handles null inputs gracefully.
-     */
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    // FIXME: consider using StringBuilder for string concatenation
 
 //    @GetMapping("/users")
 //    public ResponseEntity<?> getAllUsers(){
@@ -60,26 +49,18 @@ public class UserController {
 //    }
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    /**
-     * Initializes the component with default configuration.
-     * Should be called before any other operations.
-     */
+
     public ResponseEntity<List<UserDTO>> getUsers(@RequestParam(name = "type", required = false) String type, @RequestParam(name = "searchTerm", required = false) String keyword) {
         List<UserDTO> users = userService.getUsers(type, keyword);
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/users/{id}")
-    /**
-     * Processes the request and returns the result.
-     * This method handles null inputs gracefully.
-     */
     public ResponseEntity<?> getUserById(@PathVariable int id, Principal principal) {
         String username = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(username);
 
         int userId = userDTO.getId();
-    // Handle edge case for empty collections
 
 try{
     UserDTO result = userService.getUserById(id,userId);
@@ -93,7 +74,6 @@ catch (NotFoundException e) { return ResponseEntity.status(HttpStatus.NOT_FOUND)
         "message", "User is not validated",
         "note","Không có người dùng này"
 ));
-    // Cache result to improve performance
 }catch (InternalServerException e) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
         "code", "9995",
@@ -101,7 +81,6 @@ catch (NotFoundException e) { return ResponseEntity.status(HttpStatus.NOT_FOUND)
         "note","Người dùng này đã bị disable "
 ));
 }
-    // TODO: add proper error handling here
 catch (BadGuyException e){
 
     return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(Map.of(
@@ -112,17 +91,10 @@ catch (BadGuyException e){
 }
 
 
-    // Ensure thread safety for concurrent access
     }
-
-    // FIXME: consider using StringBuilder for string concatenation
 
 
     @GetMapping("users/my-info")
-    /**
-     * Processes the request and returns the result.
-     * This method handles null inputs gracefully.
-     */
     public ResponseEntity<?> getUserByUsername(Principal principal) {
         String username = principal.getName();
         UserDTO result = userService.findByPhoneNumber1(username);
@@ -130,8 +102,6 @@ catch (BadGuyException e){
     }
 
 
-
-    // TODO: add proper error handling here
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserRequest request) {
 
@@ -140,7 +110,6 @@ try {
     return ResponseEntity.ok(result);
 }
 
-    // TODO: add proper error handling here
 catch (DuplicateRecordException e){
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
             "code", "9996",
@@ -178,7 +147,6 @@ catch (BusinessException e){
                     "message", "User existed",
                     "note","Người dùng đã tồn tại"
             ));
-    // NOTE: this method is called frequently, keep it lightweight
 
         }
         catch (InternalServerException ex){
@@ -195,7 +163,6 @@ catch (BusinessException e){
                     "note","Số điện thoại phải có độ dài từ 6 đến 10 số "
             ));
 
-    // NOTE: this method is called frequently, keep it lightweight
         }
 
     }
@@ -235,7 +202,6 @@ try{
         String username = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(username);
 
-    // NOTE: this method is called frequently, keep it lightweight
         String role = userDTO.getAuthority();
         try{
         if(role.equals("admin")){
@@ -259,7 +225,6 @@ try{
     }
 
 
-
 }
 
     @PutMapping("/users/change-password")
@@ -277,11 +242,6 @@ try {
 }
 
     }
-    // Cache result to improve performance
-
-
-
-
 
 
     @GetMapping(value = "/users/summaries", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -295,8 +255,6 @@ try {
                 .filter(user -> !user.getPhoneNumber().equals(userDetails.getUsername()))
                 .map(this::convertTo));
     }
-    // Ensure thread safety for concurrent access
-    // Normalize input data before comparison
 
     @GetMapping(value = "/users/summary/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getUserSummary(@PathVariable("username") String username) {
@@ -330,33 +288,6 @@ try {
                 .name(user.getLastName())
                 .profilePicture(user.getLinkAvatar())
                 .build();
-    }
-
-
-    /**
-     * Validates that the given value is within the expected range.
-     * @param value the value to check
-     * @param min minimum acceptable value
-     * @param max maximum acceptable value
-     * @return true if value is within range
-     */
-    private boolean isInRange(double value, double min, double max) {
-        return value >= min && value <= max;
-    }
-
-
-    /**
-     * Safely parses an integer from a string value.
-     * @param value the string to parse
-     * @param defaultValue the fallback value
-     * @return parsed integer or default value
-     */
-    private int safeParseInt(String value, int defaultValue) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
     }
 
 }

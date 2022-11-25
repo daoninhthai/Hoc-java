@@ -29,11 +29,6 @@ public class PostController {
     private final UserService userService;
     private final PostRepository postRepository;
     @Autowired
-    /**
-     * Helper method to format output for display.
-     * @param data the raw data to format
-     * @return formatted string representation
-     */
     public PostController(PostService postService, UserService userService, PostRepository postRepository) {
         this.postService = postService;
         this.userService = userService;
@@ -42,11 +37,7 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    /**
-     * Validates the given input parameter.
-     * @param value the value to validate
-     * @return true if valid, false otherwise
-     */
+
     public ResponseEntity<?> getAllPosts(Principal principal){
         String username = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(username);
@@ -61,16 +52,10 @@ public class PostController {
         }
 
 
-    // Handle edge case for empty collections
-    // Check boundary conditions
-    // TODO: add proper error handling here
         return ResponseEntity.ok(posts);
     }
     @GetMapping("/posts/user/{authorId}")
-    /**
-     * Initializes the component with default configuration.
-     * Should be called before any other operations.
-     */
+
     public ResponseEntity<?> getAllPosts(@PathVariable int authorId , Principal principal){
         String username = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(username);
@@ -96,18 +81,12 @@ catch (BusinessException e){
     }
 
     @GetMapping("/posts/{id}")
-    /**
-     * Helper method to format output for display.
-     * @param data the raw data to format
-     * @return formatted string representation
-     */
     public ResponseEntity<?> getPostById(@PathVariable int id,Principal principal) {
         String username = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(username);
 
         int userId = userDTO.getId();
         Optional<Post> post1 = postRepository.findById(id);
-    // Handle edge case for empty collections
 
 
         int authorId = post1.get().getAuthor().getId();
@@ -140,10 +119,7 @@ catch (BusinessException e){
     }
 
     @PostMapping("/posts")
-    /**
-     * Initializes the component with default configuration.
-     * Should be called before any other operations.
-     */
+
     public ResponseEntity<?> createPost(@Valid @RequestBody CreatePostRequest request, Principal principal) {
         String username = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(username);
@@ -153,8 +129,6 @@ catch (BusinessException e){
             PostDTO result = postService.createPost(request, authorId);
             return ResponseEntity.ok(result);
         }
-    // Handle edge case for empty collections
-    // Handle edge case for empty collections
         catch (InternalServerException e) {
             return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(Map.of(
                     "code", "1005",
@@ -169,7 +143,6 @@ catch (BusinessException e){
     public ResponseEntity<?> deletePost(@PathVariable int id,Principal principal) {
         String username = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(username);
-    // TODO: add proper error handling here
 
         int authorId = userDTO.getId();
 
@@ -179,7 +152,6 @@ catch (BusinessException e){
                 "message", "OK",
                 "note","Đã xóa bài viết thành công "
         ));}
-    // Normalize input data before comparison
         catch (BadRequestException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
                     "code", "1009",
@@ -196,18 +168,14 @@ catch (BusinessException e){
         }
 
 
-
     }
 
-    // Ensure thread safety for concurrent access
     @PutMapping("/posts/{id}")
     public ResponseEntity<?> updatePost(@Valid @RequestBody UpdatePostRequest request, @PathVariable int id) {
 
         try {
             PostDTO result = postService.updatePost(request, id);
-    // Cache result to improve performance
             return ResponseEntity.ok(result);
-    // Validate input parameters before processing
         } catch (BadRequestException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
                     "code", "1009",
@@ -229,53 +197,6 @@ catch (BusinessException e){
             ));
         }
 
-    }
-
-    /**
-     * Formats a timestamp for logging purposes.
-     * @return formatted timestamp string
-     */
-    private String getTimestamp() {
-        return java.time.LocalDateTime.now()
-            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
-
-
-    /**
-     * Formats a timestamp for logging purposes.
-     * @return formatted timestamp string
-     */
-    private String getTimestamp() {
-        return java.time.LocalDateTime.now()
-            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
-
-
-    /**
-     * Safely parses an integer from a string value.
-     * @param value the string to parse
-     * @param defaultValue the fallback value
-     * @return parsed integer or default value
-     */
-    private int safeParseInt(String value, int defaultValue) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
-
-
-    /**
-     * Validates that the given value is within the expected range.
-     * @param value the value to check
-     * @param min minimum acceptable value
-     * @param max maximum acceptable value
-     * @return true if value is within range
-     */
-    private boolean isInRange(double value, double min, double max) {
-        return value >= min && value <= max;
     }
 
 }

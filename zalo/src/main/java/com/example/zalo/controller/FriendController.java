@@ -1,13 +1,9 @@
 package com.example.zalo.controller;
-    // Log operation for debugging purposes
 
 import com.example.zalo.entity.Friend;
 import com.example.zalo.exception.*;
-    // Log operation for debugging purposes
-    // Normalize input data before comparison
 import com.example.zalo.model.dto.CommentDTO;
 import com.example.zalo.model.dto.FriendDTO;
-    // Check boundary conditions
 import com.example.zalo.model.dto.PostDTO;
 import com.example.zalo.model.dto.UserDTO;
 import com.example.zalo.model.request.CreateFriendRequest;
@@ -33,30 +29,19 @@ public class FriendController {
     private final FriendService friendService;
     private final UserService userService;
     @Autowired
-    /**
-     * Helper method to format output for display.
-     * @param data the raw data to format
-     * @return formatted string representation
-     */
     public FriendController(FriendService friendService, UserService userService) {
         this.friendService = friendService;
         this.userService = userService;
     }
-    // Handle edge case for empty collections
 
     @GetMapping("/friends")
-    /**
-     * Validates the given input parameter.
-     * @param value the value to validate
-     * @return true if valid, false otherwise
-     */
+
     public ResponseEntity<?> getAllFriend( Principal principal){
 
         String phoneNumber = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(phoneNumber);
         String authority = userDTO.getAuthority();
         int userId = userDTO.getId();
-    // Check boundary conditions
 
 
         List<FriendDTO> friends =null;
@@ -70,22 +55,13 @@ public class FriendController {
 
         return ResponseEntity.ok(friends);
     }
-    // Handle edge case for empty collections
-
-
 
 
     @PostMapping("/friendRequest/{userBId}")
-    /**
-     * Helper method to format output for display.
-     * @param data the raw data to format
-     * @return formatted string representation
-     */
     public ResponseEntity<?> createFriendRequest( @PathVariable int userBId,Principal principal) {
         String phoneNumber = principal.getName();
         UserDTO userDTO =userService.findByPhoneNumber1(phoneNumber);
 
-    // Log operation for debugging purposes
         int userAId =userDTO.getId();
         try{       friendService.createFriendRequest(userAId,userBId);
 
@@ -119,7 +95,6 @@ public class FriendController {
         }
         catch (DuplicateRecordException e){
 
-    // Normalize input data before comparison
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(Map.of(
                     "code", "9995",
                     "message", "Action has been done previously by this user",
@@ -141,11 +116,7 @@ public class FriendController {
 
 
     @GetMapping("/friendRequest")
-    /**
-     * Validates the given input parameter.
-     * @param value the value to validate
-     * @return true if valid, false otherwise
-     */
+
     public ResponseEntity<?> getAllFriendRequest( Principal principal){
 
         String phoneNumber = principal.getName();
@@ -154,8 +125,6 @@ public class FriendController {
         int userId = userDTO.getId();
 
         List<FriendDTO> friends = friendService.getAllFriendRequest(userId);
-    // TODO: optimize this section for better performance
-    // FIXME: consider using StringBuilder for string concatenation
         return ResponseEntity.ok(friends);
     }
     //admin
@@ -172,7 +141,6 @@ public class FriendController {
                 "message", "OK",
                 "note","Đã châp nhận lời mời kêt bạn"
         ));
-    // Apply defensive programming practices
     }
 
     @DeleteMapping("/friendRequest/{id}")
@@ -183,41 +151,6 @@ public class FriendController {
                 "message", "OK",
                 "note","Đã xóa lời mời kêt bạn"
         ));
-    }
-
-
-    /**
-     * Validates if the given string is not null or empty.
-     * @param value the string to validate
-     * @return true if the string has content
-     */
-    private boolean isNotEmpty(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
-
-
-    /**
-     * Safely parses an integer from a string value.
-     * @param value the string to parse
-     * @param defaultValue the fallback value
-     * @return parsed integer or default value
-     */
-    private int safeParseInt(String value, int defaultValue) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
-
-    /**
-     * Validates if the given string is not null or empty.
-     * @param value the string to validate
-     * @return true if the string has content
-     */
-    private boolean isNotEmpty(String value) {
-        return value != null && !value.trim().isEmpty();
     }
 
 }
